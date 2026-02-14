@@ -1,0 +1,40 @@
+services:
+  rust-service:
+    build:
+      context: ./rust-service
+    container_name: torque-rust-service
+    environment:
+      RUST_BIND_ADDR: 0.0.0.0:3001
+      DATABASE_URL: ${DATABASE_URL}
+      SHOPIFY_PAGE_LIMIT: 250
+      SHOPIFY_MAX_PAGES: 40
+      SCRAPE_PAGE_DELAY_MS: 500
+      SCRAPE_STORE_CONCURRENCY: 3
+      SCRAPE_MAX_429_RETRIES: 6
+      SCRAPE_RETRY_BASE_DELAY_MS: 1000
+      SCRAPE_REFRESH_INTERVAL_SECS: 900
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+
+  phoenix-api:
+    build:
+      context: ./phoenix-api
+    container_name: torque-phoenix-api
+    depends_on:
+      - rust-service
+    environment:
+      SECRET_KEY_BASE: torque_gateway_prod_secret_change_me
+      PHX_HOST: localhost
+      PORT: 4000
+      RUST_SERVICE_URL: http://rust-service:3001
+      CACHE_TTL_MS: 60000
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: torque_gateway_jwt_secret_change_me
+      ACCESS_TOKEN_TTL_SECS: 3600
+      REFRESH_TOKEN_TTL_DAYS: 30
+      RESET_TOKEN_TTL_SECS: 3600
+      PASSWORD_RESET_URL_BASE: "torqueindex://reset?token="
+    ports:
+      - "4000:4000"
+    restart: unless-stopped

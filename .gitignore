@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Rust
+rust-service/target/
+**/*.rs.bk
+
+# Elixir / Phoenix
+phoenix-api/_build/
+phoenix-api/deps/
+phoenix-api/cover/
+phoenix-api/.elixir_ls/
+phoenix-api/.mix/
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# Frontend (backend repo)
+swiftui-client/
+

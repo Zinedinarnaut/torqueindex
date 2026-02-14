@@ -4,7 +4,6 @@ This repository contains three cleanly separated components:
 
 - `rust-service/`: Internal Shopify aggregation microservice (Axum + Tokio + Reqwest)
 - `phoenix-api/`: Public API gateway (Phoenix 1.7 + ETS cache + Rust client)
-- `swiftui-client/`: custom SwiftUI MVVM client (iOS/iPadOS/macOS with tvOS-configured support)
 
 ## Architecture
 

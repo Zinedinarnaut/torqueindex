@@ -9,7 +9,6 @@ This repository contains three cleanly separated components:
 
 1. Rust service fetches and normalizes products from predefined Shopify stores.
 2. Phoenix API calls Rust internal endpoints and caches query results in ETS.
-3. SwiftUI client calls Phoenix API for stores/mod feed/detail.
 
 Backend scraping now paginates each Shopify store endpoint through all pages (bounded by config safety limits).
 Scraped results are persisted in PostgreSQL and served from DB-backed query endpoints.
@@ -46,29 +45,6 @@ mix phx.server
 ```
 
 API URL: `http://localhost:4000`
-
-### 3) Run SwiftUI app
-
-Open `/Users/zinedinarnaut/Documents/Projects/TorqueIndex/swiftui-client/TorqueIndexClient.xcodeproj` in Xcode.
-Set `TORQUE_API_BASE_URL=http://localhost:4000/api` in the scheme if needed.
-
-### Access from physical iPhone on the same Wi-Fi
-
-1. Start backend services (`docker compose up` or `mix phx.server` + `cargo run`).
-2. Find your Mac LAN IP:
-```bash
-ipconfig getifaddr en0
-```
-3. In Xcode scheme for `TorqueIndexClient`, set:
-```bash
-TORQUE_API_BASE_URL=http://<YOUR_MAC_LAN_IP>:4000/api
-```
-4. Run on your iPhone (same Wi-Fi as Mac).
-
-Notes:
-- Phoenix dev now binds `0.0.0.0:4000`, so LAN devices can reach it.
-- Rust binds `0.0.0.0:3001` and is only used internally by Phoenix.
-- If connection still fails, allow incoming connections for Docker/Xcode/Phoenix in macOS Firewall.
 
 ## API surfaces
 
